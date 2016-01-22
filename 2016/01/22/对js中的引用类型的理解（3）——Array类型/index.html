@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>对js中的引用类型的理解（3）——Array类型 | sqliang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简单总结
+js数组的每一项可以保存任何类型的数据，js数组的大小可以动态调整，即随时可以随着数据的添加自动增长以容纳新数据（js是一种动态类型语言）
+##2种创建数组的基本方式：1234567891011121314//// 第一种var colors = new Array();//如果预先知道数组要保存的项目数量var colors = new Array(20);//也可以向构造函数中添加元">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对js中的引用类型的理解（3）——Array类型">
+<meta property="og:url" content="http://yoursite.com/2016/01/22/对js中的引用类型的理解（3）——Array类型/index.html">
+<meta property="og:site_name" content="sqliang">
+<meta property="og:description" content="简单总结
+js数组的每一项可以保存任何类型的数据，js数组的大小可以动态调整，即随时可以随着数据的添加自动增长以容纳新数据（js是一种动态类型语言）
+##2种创建数组的基本方式：1234567891011121314//// 第一种var colors = new Array();//如果预先知道数组要保存的项目数量var colors = new Array(20);//也可以向构造函数中添加元">
+<meta property="og:image" content="http://img.blog.csdn.net/20160116200933510">
+<meta property="og:updated_time" content="2016-01-22T15:53:53.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对js中的引用类型的理解（3）——Array类型">
+<meta name="twitter:description" content="简单总结
+js数组的每一项可以保存任何类型的数据，js数组的大小可以动态调整，即随时可以随着数据的添加自动增长以容纳新数据（js是一种动态类型语言）
+##2种创建数组的基本方式：1234567891011121314//// 第一种var colors = new Array();//如果预先知道数组要保存的项目数量var colors = new Array(20);//也可以向构造函数中添加元">
+  
+    <link rel="alternative" href="/atom.xml" title="sqliang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/me.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">sqliang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">个人blog，技术学习、总结、分享;生活浮夸随笔</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>標籤</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>關於</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">悄悄是离别的笙箫，沉默是今晚的康桥</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">sqliang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/me.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">sqliang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">个人blog，技术学习、总结、分享;生活浮夸随笔</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-对js中的引用类型的理解（3）——Array类型" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/22/对js中的引用类型的理解（3）——Array类型/" class="article-date">
+  	<time datetime="2016-01-22T15:53:53.679Z" itemprop="datePublished">2016-01-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      对js中的引用类型的理解（3）——Array类型
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="u7B80_u5355_u603B_u7ED3"><a href="#u7B80_u5355_u603B_u7ED3" class="headerlink" title="简单总结"></a>简单总结</h1><blockquote>
+<p>js数组的每一项可以保存任何类型的数据，js数组的大小可以动态调整，即随时可以随着数据的添加自动增长以容纳新数据（js是一种动态类型语言）</p>
+<p>##2种创建数组的基本方式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//// 第一种</span></span><br><span class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="comment">//如果预先知道数组要保存的项目数量</span></span><br><span class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">20</span>);</span><br><span class="line"><span class="comment">//也可以向构造函数中添加元素</span></span><br><span class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">"red"</span>,<span class="string">"blue"</span>,<span class="string">"green"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//另外，在使用Array构造函数时也可以省略new操作符：</span></span><br><span class="line"><span class="keyword">var</span> colors = <span class="built_in">Array</span>(<span class="number">3</span>);</span><br><span class="line"><span class="keyword">var</span> names = <span class="built_in">Array</span>(<span class="string">"sqliang"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//// 第二种：字面量（推荐）</span></span><br><span class="line"><span class="keyword">var</span> colors = [<span class="string">'red'</span>,<span class="string">'green'</span>,<span class="string">'blue'</span>];</span><br><span class="line"><span class="keyword">var</span> names = [];<span class="comment">//创建一个空数组（注：**在使用字面量表示法时，不会调用Array构造函数**）</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="u6570_u7EC4_u7684_u5C5E_u6027_uFF1A"><a href="#u6570_u7EC4_u7684_u5C5E_u6027_uFF1A" class="headerlink" title="数组的属性："></a>数组的属性：</h2><blockquote>
+<p>数组的length属性是比较有特点的，它不仅仅是只读的，因此通过设置这个属性，可以从数组的末尾移出项或向数组添加新项.<br><img src="http://img.blog.csdn.net/20160116200933510" alt="这里写图片描述"></p>
+<p>##检测数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES3对于一个网页或者一个全局作用域而言，使用instancof可以得到满意的结果</span></span><br><span class="line"><span class="keyword">if</span>(colors <span class="keyword">instanceof</span> <span class="built_in">Array</span>)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ES5，支持的浏览器有：IE9+、FireFox4+、Chrome，Safari5+，opera10.5+</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">Array</span>.isArray()colors)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="u8F6C_u6362_u65B9_u6CD5"><a href="#u8F6C_u6362_u65B9_u6CD5" class="headerlink" title="转换方法"></a>转换方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">colors.toString();<span class="comment">//toString()返回由数组中每个值得字符串拼接而成的一个以逗号分隔的字符串</span></span><br><span class="line">colors.valueOf();<span class="comment">//返回的还是数组</span></span><br><span class="line">colors.toLocalString();<span class="comment">//也会返回与toString()和valueOf()方法仙童的值</span></span><br></pre></td></tr></table></figure>
+<h2 id="u6808_u65B9_u6CD5_uFF08LIFO_uFF0CLast-In-First-Out_uFF09"><a href="#u6808_u65B9_u6CD5_uFF08LIFO_uFF0CLast-In-First-Out_uFF09" class="headerlink" title="栈方法（LIFO，Last-In-First-Out）"></a>栈方法（LIFO，Last-In-First-Out）</h2><blockquote>
+<p>js为数组专门提供了push()和pop()方法，以方便实现类似栈的行为<br>push()方法可以接受任意数量的参数，把他们逐个添加到数组末尾，并<strong>返回修改后数组的长度</strong>，pop()方法则从数组末尾移除最后一项，减少数组的length值，并返回移除的项。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">var</span> count = colors.push(<span class="string">"red"</span>,<span class="string">"green"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></span><br><span class="line"></span><br><span class="line">count = colors.push(<span class="string">"black"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(count);<span class="comment">//3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> item = colors.pop();</span><br><span class="line"><span class="built_in">console</span>.log(item);<span class="comment">//"black"</span></span><br><span class="line"><span class="built_in">console</span>.log(colors.length);</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="u961F_u5217_u65B9_u6CD5_uFF08FIFO_uFF0CFirst-In-First-Out_uFF09"><a href="#u961F_u5217_u65B9_u6CD5_uFF08FIFO_uFF0CFirst-In-First-Out_uFF09" class="headerlink" title="队列方法（FIFO，First-In-First-Out）"></a>队列方法（FIFO，First-In-First-Out）</h2><blockquote>
+<p>队列在列表的末端添加项（push（）），从列表的前端移除项（shift（）,移除数组的第一个项并返回该项，同时将数组length减1）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">var</span> count = colors.push(<span class="string">"red"</span>,<span class="string">"green"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></span><br><span class="line"></span><br><span class="line">count = colors.push(<span class="string">"black"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(count);<span class="comment">//3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> item = colors.shift();</span><br><span class="line"><span class="built_in">console</span>.log(item);<span class="comment">//"red"</span></span><br><span class="line"><span class="built_in">console</span>.log(colors.length);<span class="comment">//2</span></span><br></pre></td></tr></table></figure></p>
+<p>js还为数组提供了一个unshift()方法，可以在数组前端添加任意个项，并<strong>返回数组的长度</strong>。因此，同时使用unshift()和pop()方法，可以从相反的方向来模拟队列，即在数组的前端添加项，从数组末端移除项<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">var</span> count = colors.unshift(<span class="string">"red"</span>,<span class="string">"green"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></span><br><span class="line"></span><br><span class="line">count = colors.unshift(<span class="string">"black"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(count);<span class="comment">//3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> item = colors.pop();</span><br><span class="line"><span class="built_in">console</span>.log(item);<span class="comment">//"green"</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="*_u91CD_u65B0_u6392_u5E8F_u65B9_u6CD5"><a href="#*_u91CD_u65B0_u6392_u5E8F_u65B9_u6CD5" class="headerlink" title="*重新排序方法"></a><em>*</em>重新排序方法</h2><blockquote>
+<p>可以直接使用reverse（）和sort（）来重新排序</p>
+</blockquote>
+<p>reverse()方法会反转数组项的顺序：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var haha = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</span><br><span class="line">haha.reverse();</span><br><span class="line">console.<span class="built_in">log</span>(haha);<span class="comment">//5,4,3,2,1</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>sort()方法会按照升序排列数组项，即最小的排在最前面，最大的排在最后面。<strong>为了实现排序，sort()方法会调用每个数组项的toString()方法，然后比较得到的字符串，以确定如何排序，即使数组中的每一项都是数值，sort()方法比较的也是字符串</strong>,这种方案肯定不好，因此，<strong>sort方法可以接收一个比较函数作为参数，以便我们来指定哪个值位于哪个值得前面</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//等价于compare1</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">value1,value2</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(value1 &lt; value2)&#123;</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(value1 &gt; value2)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//compare1</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare1</span>(<span class="params">value1,value2</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> value2 - value1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> haha = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">10</span>,<span class="number">15</span>];</span><br><span class="line">haha.sort(compare);<span class="comment">//升序排列</span></span><br><span class="line"><span class="built_in">console</span>.log(haha);<span class="comment">//1,2,3,10,15</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="u64CD_u4F5C_u65B9_u6CD5"><a href="#u64CD_u4F5C_u65B9_u6CD5" class="headerlink" title="操作方法"></a>操作方法</h2><blockquote>
+<p>concat()方法基于当前数组的所有项创建一个新数组。即先创建当前数组一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新构建的数组。在没有传递参数的情况下，它只是复制当前数组并返回副本。如果传递给concat()方法的是一或多个数组，则该方法会将这些数组中的每一项都添加到结果数组中。如果传递的不是数组，这些值会直接添加到结果数组的末尾处<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = [<span class="string">"red"</span>,<span class="string">"green"</span>,<span class="string">"blue"</span>];</span><br><span class="line"><span class="keyword">var</span> colors2 = colors.concat(<span class="string">"yellow"</span>,[<span class="string">"black"</span>,<span class="string">"brown"</span>]);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(colors);<span class="comment">//red,green,blue</span></span><br><span class="line"><span class="built_in">console</span>.log(colors2);<span class="comment">//red,green,blue,yellow,black,brown</span></span><br></pre></td></tr></table></figure></p>
+<p>slice()方法接收一个或两个参数，即要返回的起始和结束位置。在只有一个参数的情况下，slice()方法返回从该参数指定位置开始到当前数组末尾的所有项。如果有两个参数，该方法<strong>返回起始位置和结束位置之间的项，单包括结束位置的项</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = [<span class="string">"red"</span>,<span class="string">"green"</span>,<span class="string">"blue"</span>,<span class="string">"yellow"</span>,<span class="string">"purple"</span>];</span><br><span class="line"><span class="keyword">var</span> colors2 = colors.slice(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> colors3 = colors.slice(<span class="number">1</span>,<span class="number">4</span>);</span><br><span class="line"><span class="built_in">console</span>.log(colors2);<span class="comment">//"green","blue","yellow","purple"</span></span><br><span class="line"><span class="built_in">console</span>.log(colors3);<span class="comment">//"green","blue","yellow"</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/01/22/jsobject/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">理解js的对象，对象创建，继承</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="对js中的引用类型的理解（3）——Array类型" data-title="对js中的引用类型的理解（3）——Array类型" data-url="http://yoursite.com/2016/01/22/对js中的引用类型的理解（3）——Array类型/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 sqliang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
