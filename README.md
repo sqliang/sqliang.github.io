@@ -2,8 +2,6 @@
 
 A digital garden exploring the intersection of Full-stack Engineering, Product Thinking, and LLMs. Built with VitePress and vitepress-theme-teek.
 
-一个探索全栈工程、产品思维与 LLM 交叉领域的数字花园。
-
 [![Built with VitePress](https://img.shields.io/badge/Built%20with-VitePress-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitepress.dev/)
 [![License](https://img.shields.io/github/license/[你的GitHub用户名]/insight-stack-blog?style=flat-square)](LICENSE)
 
