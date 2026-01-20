@@ -10,162 +10,25 @@ A digital garden exploring the intersection of Full-stack Engineering, Product T
 
 ## 📖 关于本项目 (About)
 
-欢迎来到 **Insight Stack Blog**。这是一个基于 [VitePress](https://vitepress.dev/) 构建的个人数字花园，聚焦**全栈技能 · 产品思维 · LLM 探索 · 个人成长**，探索技术边界，构建产品思维，在 AI 时代持续进化。
+欢迎来到 **Insight Stack Blog**，一个聚焦**全栈技能 · 产品思维 · LLM 探索 · 个人成长**，探索技术边界，构建产品思维的数字花园。
 
-**"Stack"** 不仅代表我作为开发者的 **Tech Stack（技术栈）**，更代表了 **Insight Stack（认知栈）**。在这个快速变化的 AI 时代，单纯的代码能力已不足以定义一个优秀的工程师。本项目旨在记录和分享我在以下四个维度的深度思考与实践：
+在很长一段时间里，我和大多数开发者一样，认为“全栈”就是收集更多的技术徽章：从 React 到 NestJS，从 Python 到 Rust。我曾以为技术的广度、扎实的工程化能力就是护城河。
 
-1.  **工程能力**：扎实的全栈技术根基。
-2.  **产品 Sense = 用户价值洞察 × 商业可行性 × 技术可实现性的直觉平衡力**：技术服务于产品，从需求到设计再到实现，都需要产品 Sense。
-3.  **AI 赋能**：拥抱 LLM 带来的生产力革命。
-4.  **自我迭代**：持续学习与心智成长的闭环。
+但在 AI 重构代码生产方式与编程范式的今天，我意识到规则变了。现在的我，不再执着于手里有多少把锤子，而更关注能构建出怎样的建筑，也更愿意将自己定义为一个 **"Product Engineer" (产品型工程师)** 和 **"AI-Augmented Builder" (AI 增强型构建者)**。
 
-## 🛠️ 技术栈 (Tech Stack)
+在这个博客 **Insight Stack** 中，记录了我对技术角色的重新思考，我相信未来的全栈不再是线性的技能堆叠，而是一个新的全栈价值公式：
 
-本项目使用以下技术构建：
+$$
+\mathbf{Full\ Stack} \; = \; (\mathbf{Engineering} \; + \; \mathbf{Product}) \; \times \; \mathbf{AI}
+$$
 
-* **Core**: [VitePress](https://vitepress.dev/) - 极速的静态网站生成器
-* **Theme**: [vitepress-theme-teek](https://github.com/teekay/vitepress-theme-teek) - 基于 VitePress 的自定义主题
-* **Deployment**: GitHub Actions + GitHub Pages
+* **Engineering (工程力)——坚实的基石**：工程力从“代码设计与实现 (How)”迁移至 **“架构交付 (What & Why)”**。当 AI 接管了样板代码，工程师的价值体现为**架构决策的权衡、复杂逻辑的审计与验收**，以及构建从 Localhost 到 Production 的**自动化交付体系**。
+* **Product (产品力)——价值的指引**：产品力作为工程力的方向盘，具备 “同理心” 与 “MVP 思维”。这意味着跳出技术自嗨，精准捕捉用户的真实痛点，计算体验 ROI，敏锐地识别并实现那些 “低成本高价值” 的关键特性，拒绝盲目的过度设计。
+* **AI (AI 杠杆)——指数级倍增器**：AI 不仅仅是工具，更是让个人能力产生爆炸式增长的 乘数。它通过 Context Engineering 抹平了前后端的技术门槛（技能补全），并将从 Idea 到 Demo 的周期从数周压缩至数小时（时间压缩），让 “超级个体” 成为可能。
 
+**Insight Stack** 是我的数字花园，也是我践行上述理念的实验场之一。我把它定义为 **“一个探索全栈工程、产品思维与 LLM 交叉领域的数字花园”**。
 
-## 🚀 快速开始
-
-### 环境要求
-
-- Node.js 18+
-- pnpm 8+
-
-### 本地开发
-
-```bash
-# 1. 克隆仓库
-git clone [https://github.com/](https://github.com/)[你的GitHub用户名]/insight-stack-blog.git
-
-# 2. 进入目录
-cd insight-stack-blog
-
-# 3. 安装依赖 (推荐使用 pnpm)
-pnpm install
-
-# 4. 启动本地开发服务器
-pnpm docs:dev
-```
-
-### 访问博客
-访问 http://localhost:5173 查看博客。
-
-### 构建生产版本
-
-```bash
-pnpm run docs:build
-```
-
-构建产物将输出到 `dist` 目录。
-
-### 本地预览构建结果
-
-```bash
-pnpm run docs:preview
-```
-
-## 📁 项目结构
-
-```
-insight-stack-blog/
-├── .claude/              # AI assistant configuration
-│   ├── GIT_WORKFLOW.md   # Git rules (READ THIS)
-│   └── settings.local.json
-├── docs/                 # Documentation and blog content
-│   ├── .vitepress/       # VitePress config
-│   ├── 01.全栈/          # Full-stack tech articles
-│   ├── 10.产品 Sense/    # Product sense articles
-│   ├── 20.AI 学习与实践/  # AI learning & practice
-│   ├── 30.个人成长/      # Personal growth
-│   ├── 40.关于/          # About section
-│   └── public/           # Static assets
-├── package.json
-└── pnpm-lock.yaml
-```
-
-## ✍️ 写作指南
-
-### 创建新文章
-
-1. 在对应分类目录下创建 Markdown 文件（如 `docs/01.全栈技术/01.前端/`、`docs/20.AI 学习与实践/01.专题学习/`）
-2. 文件名建议格式：`YYYY-MM-DD-article-title.md`
-3. 在文件头部添加 frontmatter：
-
-```yaml
----
-title: 文章标题
-date: 2025-11-20
-tags: [标签1, 标签2]
-description: 文章描述（可选）
----
-```
-
-### 文章分类
-
-当前支持的分类目录：
-- `01.全栈技术` - 全栈开发相关内容，包含前端、NodeJS、Python 等技术
-- `10.产品 Sense` - 产品思维、用户价值、商业可行性等相关内容
-- `20.AI 学习与实践` - AI 和大语言模型技术探索与应用实践
-- `30.个人成长` - 资源推荐、阅读分享、时间管理、效率工具等
-- `40.关于` - 关于作者、网站和时间轴等信息
-
-可以根据需要在 `docs/` 下创建新的分类目录。
-
-## 🚢 部署到 GitHub Pages
-
-### 自动部署（推荐）
-
-本项目已配置 GitHub Actions 自动部署：
-
-1. 在 GitHub 仓库设置中，进入 `Settings` > `Pages`
-2. 在 `Build and deployment` 下，`Source` 选择 `GitHub Actions`
-3. 推送代码到 `main` 分支，会自动触发部署
-4. 部署完成后，访问博客地址
-
-### 手动部署
-
-如果需要手动部署：
-
-```bash
-pnpm run deploy
-```
-
-### 配置自定义域名
-
-1. 在 GitHub 仓库设置的 Pages 页面添加自定义域名
-2. 在 `docs/.vitepress/config.ts` 中修改 `base` 配置：
-   - 如果使用自定义域名：`base: '/'`
-   - 如果使用 GitHub Pages 默认域名：`base: '/repository-name/'`
-
-## 🔧 自定义配置
-
-### 修改博客信息
-
-编辑 `docs/.vitepress/config.ts`，修改以下配置：
-
-- `title`: 博客标题
-- `description`: 博客描述
-- `socialLinks`: 社交媒体链接
-
-### 添加新的导航项
-
-在 `docs/.vitepress/config.ts` 的 `nav` 数组中添加新项：
-
-```typescript
-nav: [
-  { text: '首页', link: '/' },
-  { text: '新页面', link: '/new-page' }
-]
-```
-
-
-## 📄 许可证
-
-MIT License
+我不希望这里只是枯燥的代码片段或简单的技术分享与总结，我希望你看到的是一个工程师对 **LLM 落地路径**的真实探索，对 **产品 Sense** 这一核心能力的深度复盘，以及个人在技术浪潮中的成长记录。
 
 ## 🙏 致谢
 
