@@ -17,7 +17,7 @@ A digital garden exploring the intersection of Full-stack Engineering, Product T
 在这个博客 **Insight Stack** 中，记录了我对技术角色的重新思考，我相信未来的全栈不再是线性的技能堆叠，而是一个新的全栈价值公式：
 
 $$
-\mathbf{Full\ Stack} \; = \; (\mathbf{Engineering} \; + \; \mathbf{Product}) \; \times \; \mathbf{AI}
+\mathbf{Full\ Stack} = (\mathbf{Engineering} + \mathbf{Product})  \times \mathbf{AI}
 $$
 
 * **Engineering (工程力)——坚实的基石**：工程力从“代码设计与实现 (How)”迁移至 **“架构交付 (What & Why)”**。当 AI 接管了样板代码，工程师的价值体现为**架构决策的权衡、复杂逻辑的审计与验收**，以及构建从 Localhost 到 Production 的**自动化交付体系**。
