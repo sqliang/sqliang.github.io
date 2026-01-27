@@ -1,11 +1,8 @@
 # Insight Stack Blog
 
-A digital garden exploring the intersection of Full-stack Engineering, Product Thinking, and LLMs. Built with VitePress and vitepress-theme-teek.
+> AI & 全栈技术 & 产品思考与成长记录
 
-一个探索全栈工程、产品思维与 LLM 交叉领域的数字花园。
-
-[![Built with VitePress](https://img.shields.io/badge/Built%20with-VitePress-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitepress.dev/)
-[![License](https://img.shields.io/github/license/[你的GitHub用户名]/insight-stack-blog?style=flat-square)](LICENSE)
+✨探索技术前沿，沉淀产品思考，记录成长点滴，相信时间的力量
 
 ## Table of Contents
 
@@ -47,10 +44,6 @@ A digital garden exploring the intersection of Full-stack Engineering, Product T
 - [UI 代码生成器](/20.AI 学习与实践/20. AI 实践/30.UI 代码生成.md): 一个能够根据自然语言描述自动生成代码的AI工具
 - [效能小助手](/20.AI 学习与实践/20. AI 实践/40.效能小助手.md): 一个能够根据自然语言描述自动生成代码的AI工具
 
-### 资源推荐
-
-- [资源推荐](/30.个人成长/01.资源推荐.md)
-
 ### 悦读时光
 
 - [悦读拾光](/30.个人成长/10.悦读时光.md): 读书心得、推荐书籍和阅读技巧
@@ -66,6 +59,7 @@ A digital garden exploring the intersection of Full-stack Engineering, Product T
 ###  健康集锦
 
 - [健康集锦](/30.个人成长/40. 健康集锦.md): 关于身心健康的知识、方法和个人实践
+- [用科学与迭代改善的方式推动减肥这件小事](/30.个人成长/40. 健康集锦/减肥这件小事阶段随笔汇总.md)
 
 ### Other
 
@@ -75,3 +69,4 @@ A digital garden exploring the intersection of Full-stack Engineering, Product T
 - [大语言模型（LLM）入门指南](/20.AI 学习与实践.md)
 - [当“实现”不再是壁垒：工程师如何构建 Product Sense 这一核心护城河？](/10.产品 Sense.md): 摘要总结：当 AI 让代码生成的边际成本趋近于零，“技术实现”不再是不可逾越的壁垒，“产品洞察”能构筑起新的核心护城河。本文拒绝玄学，将抽象的 产品 Sense 解构为三个核心数学公式，并提供一套基于“逆向工程”的刻意练习指南，助力开发者在算力过剩的时代，完成从“代码工匠”到“价值创造者”的认知跃迁。
 - [标签](/@pages/tagsPage.md)
+- [资源推荐](/30.个人成长/01.资源推荐.md)
