@@ -1360,28 +1360,7 @@ $$
 * [不止于代码：构建 AI 时代全栈工程师的"认知三层塔"](/fullstack)
 * [当"实现"不再是壁垒：工程师如何构建 Product Sense 这一核心护城河？](/product-sense)
 
-## 连接与交流
-
-最好的学习是公开分享，最快的成长是与优秀者同行。无论是探讨**全栈**、**AI 编程与应用**、**Agent 落地**，还是交流**产品心得**，都非常欢迎你联系我~
-
-:::note
-**联系方式**
-
-* 💬 **微信**：`hfutsqliang` (请备注：Insight Stack 和你的姓名)
-* 📮 **邮箱**：
-  * `hfutsqliang@qq.com`
-  * `hfutsqliang@gmail.com`
-* 🔗 \*\*Github：\*\*https://github.com/sqliang
-  :::
-
----
-
----
-url: /40.关于/02.关于本站.md
-description: Insight Stack 是一个探索全栈工程、产品思维与 LLM 交叉领域的数字花园。
----
-
-# 关于本站
+## 关于本站
 
 **Insight Stack** 是我的数字花园，也是我践行上述理念的实验场之一。我把它定义为 **"一个探索全栈工程、产品思维与 LLM 交叉领域的数字花园"**。
 
@@ -1405,6 +1384,20 @@ description: Insight Stack 是一个探索全栈工程、产品思维与 LLM 交
 
 * **Core**: [VitePress](https://vitepress.dev/)，由 Vite & Vue 驱动的极速静态网站生成器，提供了卓越的开发者体验 (DX) 和极致的性能。
 * **Theme**: [vitepress-theme-teek](https://github.com/Kele-Bingtang/vitepress-theme-teek)，一个专注于阅读体验的 VitePress 自定义主题，其简约的设计理念与本站"注重内容"的初衷不谋而合。
+
+## 连接与交流
+
+最好的学习是公开分享，最快的成长是与优秀者同行。无论是探讨**全栈**、**AI 编程与应用**、**Agent 落地**，还是交流**产品心得**，都非常欢迎你联系我~
+
+:::note
+**联系方式**
+
+* 💬 **微信**：`hfutsqliang` (请备注：Insight Stack 和你的姓名)
+* 📮 **邮箱**：
+  * `hfutsqliang@qq.com`
+  * `hfutsqliang@gmail.com`
+* 🔗 \*\*Github：\*\*https://github.com/sqliang
+  :::
 
 ---
 
