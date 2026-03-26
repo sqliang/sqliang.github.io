@@ -61,7 +61,7 @@ description: >-
 ---
 
 ---
-url: /20.AI 学习与实践.md
+url: /20.AI 学习与实践/00.AI 学习与实践全景一览.md
 ---
 
 # AI 学习与实践全景一览
@@ -2184,7 +2184,7 @@ description: >-
 ---
 
 ---
-url: /10.产品 Sense.md
+url: /10.产品 Sense/00.学习与实践全景.md
 description: 产品 Sense 学习与实践全景一览，涵盖 AI 产品观察、复合型人才成长、商业化思考及方法论总结等。
 ---
 
