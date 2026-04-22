@@ -1,4 +1,0 @@
----
-url: /@pages/categoriesPage.md
----
-
