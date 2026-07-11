@@ -1,0 +1,151 @@
+/* empty css                                                                               */import{H as l}from"./chunks/HighLightText.DEA09ZsT.js";import{c as r,o as t,d as p,b as e,a,w as i,e as n}from"./chunks/vitepress-theme-teek.Cn3pDl2f.js";/* empty css                                                             */const g=JSON.parse('{"title":"大模型幻觉：成因、分类与缓解策略","description":"深入剖析LLM幻觉的定义、分类与四大成因，系统介绍RAG、Grounding、约束解码、事实性校验四种缓解策略的原理与效果，并探讨幻觉与创造力的本质边界。","frontmatter":{"date":"2026-06-29T09:53:37.000Z","title":"大模型幻觉：成因、分类与缓解策略","tldr":"幻觉是LLM生成式本质的固有副产物，无法根除但可通过RAG、约束解码等策略系统化管理。","description":"深入剖析LLM幻觉的定义、分类与四大成因，系统介绍RAG、Grounding、约束解码、事实性校验四种缓解策略的原理与效果，并探讨幻觉与创造力的本质边界。","tags":["概念","幻觉","LLM","RAG","Grounding"],"categories":["大模型基础","应用技术"],"permalink":"/llm-basic/hallucination"},"headers":[],"relativePath":"llm-basic/hallucination.md","filePath":"22.大模型基础/05.应用技术/01.幻觉.md"}'),b={name:"llm-basic/hallucination.md"},q=Object.assign(b,{setup(u){return(c,s)=>(t(),r("div",null,[s[10]||(s[10]=p(`<h1 id="大模型幻觉-成因、分类与缓解策略" tabindex="-1">大模型幻觉：成因、分类与缓解策略 <a class="header-anchor" href="#大模型幻觉-成因、分类与缓解策略" aria-label="Permalink to “大模型幻觉：成因、分类与缓解策略”">​</a></h1><blockquote><p><strong>摘要</strong>: 针对大语言模型在文本生成中普遍存在的幻觉问题，从定义与分类出发，将幻觉划分为事实性幻觉（实体错误、关系错误、数值错误、时空错误）和忠实性幻觉（指令遗忘、上下文矛盾、过度推断、信息编造）两大类型。随后从训练数据局限性、自回归生成的累积误差、概率模型的内在矛盾以及注意力机制的局限性四个维度系统分析了幻觉的产生机理。在此基础上，详细阐述了RAG检索增强生成、Grounding事实锚定、约束解码和事实性校验四种主流缓解策略的原理、效果与适用场景。最后，从生成机制同源性的视角探讨了幻觉与创造力之间的模糊边界，提出在不同风险等级场景下应采取的差异化治理策略。</p></blockquote><h2 id="_1-引言" tabindex="-1">1. 引言 <a class="header-anchor" href="#_1-引言" aria-label="Permalink to “1. 引言”">​</a></h2><p>幻觉是 LLM 领域最受关注也最棘手的问题之一。2025 年的一项调查显示，<strong>超过 60% 的企业 AI 采用者将幻觉列为阻碍生产部署的首要障碍</strong>。这不仅是一项技术挑战，更是涉及信任、安全与伦理的复杂议题。</p><p>首先需要澄清一个常见误解：<strong>LLM 的核心能力在于&quot;生成概率上合理的文本&quot;，而非&quot;检索记忆中的事实&quot;</strong>。它本质上是一个高度复杂的&quot;下一个 token 预测器&quot;，而非数据库。</p><p>理解这一点后，幻觉便不再是&quot;缺陷&quot;，而是该技术范式固有的特性。</p><h2 id="_2-幻觉的定义与分类" tabindex="-1">2. 幻觉的定义与分类 <a class="header-anchor" href="#_2-幻觉的定义与分类" aria-label="Permalink to “2. 幻觉的定义与分类”">​</a></h2><h3 id="_2-1-事实性幻觉——模型生成的内容与客观事实不符" tabindex="-1">2.1 事实性幻觉——模型生成的内容与客观事实不符 <a class="header-anchor" href="#_2-1-事实性幻觉——模型生成的内容与客观事实不符" aria-label="Permalink to “2.1 事实性幻觉——模型生成的内容与客观事实不符”">​</a></h3><p><strong>事实性幻觉</strong>的典型表现：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span></span></span>
+<span class="line"><span>用户: &quot;2022 年世界杯冠军是谁？&quot;</span></span>
+<span class="line"><span>模型: &quot;2022 年世界杯冠军是巴西队。&quot;  ← 错误，实际是阿根廷</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>用户: &quot;鲁迅的代表作有哪些？&quot;</span></span>
+<span class="line"><span>模型: &quot;鲁迅的代表作包括《呐喊》《彷徨》《围城》。&quot;</span></span>
+<span class="line"><span>                                      ↑ 《围城》是钱钟书的作品</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>事实性幻觉又可以细分：</p><table tabindex="0"><thead><tr><th>子类型</th><th>定义</th><th>示例</th></tr></thead><tbody><tr><td><strong>实体错误</strong></td><td>把实体 A 的属性安在实体 B 上</td><td>&quot;贝多芬写了《命运交响曲》和《致爱丽丝》...还有《献给爱丽丝的月光》&quot;（编造了不存在的作品）</td></tr><tr><td><strong>关系错误</strong></td><td>实体间的逻辑关系不对</td><td>&quot;爱因斯坦发明了原子弹&quot;（他参与了理论，但不是他发明的）</td></tr><tr><td><strong>数值错误</strong></td><td>数字、日期、统计值不准确</td><td>&quot;珠穆朗玛峰高 9,848 米&quot;（实际是 8,848.86 米）</td></tr><tr><td><strong>时空错误</strong></td><td>时间线或地点不对</td><td>&quot;张艺谋 2024 年执导了《哪吒 2》&quot;（导演是饺子）</td></tr></tbody></table><h3 id="_2-2-忠实性幻觉——模型生成的输出偏离了用户指令或给定的上下文。" tabindex="-1">2.2 忠实性幻觉——模型生成的输出偏离了用户指令或给定的上下文。 <a class="header-anchor" href="#_2-2-忠实性幻觉——模型生成的输出偏离了用户指令或给定的上下文。" aria-label="Permalink to “2.2 忠实性幻觉——模型生成的输出偏离了用户指令或给定的上下文。”">​</a></h3><p><strong>忠实性幻觉</strong>的典型表现：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>System Prompt: &quot;你只能回答关于编程的问题。&quot;</span></span>
+<span class="line"><span>User: &quot;推荐一本小说吧。&quot;</span></span>
+<span class="line"><span>Model: &quot;好的，我推荐《百年孤独》，这是一本伟大的小说。&quot;</span></span>
+<span class="line"><span>        ← 模型违反了 System Prompt 的约束，虽然小说确实存在</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>上下文: &quot;用户小王是一名素食者。请根据他的饮食偏好推荐餐厅。&quot;</span></span>
+<span class="line"><span>Model: &quot;我推荐这家牛排馆，他们的招牌菲力牛排是一绝。&quot;  </span></span>
+<span class="line"><span>        ← 忽略了上下文中&quot;素食者&quot;的关键约束</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>忠实性幻觉的常见类型：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>类型 1：指令遗忘</span></span>
+<span class="line"><span>  上下文明确说&quot;以 JSON 格式输出&quot;，模型却输出了普通文本</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>类型 2：上下文矛盾</span></span>
+<span class="line"><span>  上下文中两处信息矛盾时（如&quot;预算是 100 万&quot;但后面又说&quot;上限 50 万&quot;），</span></span>
+<span class="line"><span>  模型可能随意选择一个或混淆两者</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>类型 3：过度推断</span></span>
+<span class="line"><span>  上下文说&quot;用户喜欢户外运动&quot;，模型推断&quot;用户一定喜欢攀岩&quot;并据此推荐</span></span>
+<span class="line"><span>  ← 这个推理步骤缺乏依据</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>类型 4：信息编造</span></span>
+<span class="line"><span>  上下文中没有某个信息，模型凭空捏造。</span></span>
+<span class="line"><span>  例如上下文只说&quot;项目延期了&quot;，模型补充&quot;项目延期是因为团队成员请假&quot;</span></span>
+<span class="line"><span>  ← 事实可能成立，但没有依据</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p><strong>一个可能同时包含两种幻觉的例子</strong>：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>User: &quot;请根据以下客服对话记录总结客户的问题：</span></span>
+<span class="line"><span>      客户：我上个月买的手机屏幕出现了黑线，而且电池半天就没电了。&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Model: &quot;客户于 2023 年 3 月（编造了具体日期）购买了一部 iPhone 15（编造了机型），</span></span>
+<span class="line"><span>        主要投诉屏幕质量问题以及电池续航不足。建议客户前往 Apple Store 进行维修</span></span>
+<span class="line"><span>        （从&#39;手机&#39;推断为&#39;iPhone&#39;，从&#39;维修&#39;推断为&#39;Apple Store&#39;）。&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>这里既有事实性幻觉（编造日期和机型），也有忠实性幻觉（过度推断产品品牌和维修渠道）。</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="_3-幻觉产生的原因分析" tabindex="-1">3. 幻觉产生的原因分析 <a class="header-anchor" href="#_3-幻觉产生的原因分析" aria-label="Permalink to “3. 幻觉产生的原因分析”">​</a></h2><p>幻觉并非由单一因素导致，而是 LLM 工作机制中多个环节相互作用的结果。</p><h3 id="_3-1-原因一-训练数据的局限性" tabindex="-1">3.1 原因一：训练数据的局限性 <a class="header-anchor" href="#_3-1-原因一-训练数据的局限性" aria-label="Permalink to “3.1 原因一：训练数据的局限性”">​</a></h3><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>训练数据的问题链：</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  互联网文本（训练数据源）</span></span>
+<span class="line"><span>    │</span></span>
+<span class="line"><span>    ├─ 包含大量错误信息（维基百科也不是 100% 正确）</span></span>
+<span class="line"><span>    ├─ 存在矛盾信息（同一话题的不同观点/事实版本）</span></span>
+<span class="line"><span>    ├─ 信息不完整（很多知识在训练数据中缺失或稀疏）</span></span>
+<span class="line"><span>    └─ 有时序滞后（模型训练截止日期之后的新闻和发现）</span></span>
+<span class="line"><span>    │</span></span>
+<span class="line"><span>    ▼</span></span>
+<span class="line"><span>  模型学到的不是&quot;真理&quot;，而是&quot;文本中常见的模式&quot;</span></span>
+<span class="line"><span>    │</span></span>
+<span class="line"><span>    ▼</span></span>
+<span class="line"><span>  面对低频或训练数据中不存在的事实，模型容易&quot;脑补&quot;</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><div class="tip custom-block"><p class="custom-block-title">关键洞察</p><p>训练数据决定了模型的&quot;知识上限&quot;。一个从未在训练数据中见过量子计算详细解释的模型，在被问及量子计算时只能&quot;猜测&quot;——而这些猜测大概率是错的。</p></div><h3 id="_3-2-原因二-自回归生成的累积误差" tabindex="-1">3.2 原因二：自回归生成的累积误差 <a class="header-anchor" href="#_3-2-原因二-自回归生成的累积误差" aria-label="Permalink to “3.2 原因二：自回归生成的累积误差”">​</a></h3><p><strong>自回归生成的级联错误</strong>：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>Step 1: 模型预测 &quot;爱因&quot; → 正确</span></span>
+<span class="line"><span>Step 2: 模型预测 &quot;爱因斯&quot; → 正确</span></span>
+<span class="line"><span>Step 3: 模型预测 &quot;爱因斯坦&quot; → 正确</span></span>
+<span class="line"><span>Step 4: 模型预测 &quot;爱因斯坦在&quot; → 正确</span></span>
+<span class="line"><span>Step 5: 模型预测 &quot;爱因斯坦在 1&quot; → 似乎合理...</span></span>
+<span class="line"><span>Step 6: 模型预测 &quot;爱因斯坦在 19&quot; → 还在合理范围</span></span>
+<span class="line"><span>Step 7: 模型预测 &quot;爱因斯坦在 192&quot; → 年份还在正确轨道</span></span>
+<span class="line"><span>Step 8: 模型预测 &quot;爱因斯坦在 1921 年&quot; → 仍合理</span></span>
+<span class="line"><span>Step 9: 模型预测 &quot;爱因斯坦在 1921 年发明了&quot; → 开始出问题</span></span>
+<span class="line"><span>Step 10: 模型预测 &quot;爱因斯坦在 1921 年发明了原子弹&quot; → 幻觉已形成！</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>问题：第 3 步的微小偏差在第 10 步被放大为事实错误。</span></span>
+<span class="line"><span>      且一旦&quot;发明了&quot;这个动词被采样，模型基于&quot;已有文本的一致性&quot;会倾向于</span></span>
+<span class="line"><span>      继续完成一个&quot;通顺&quot;的句子，而不是停下来检查事实。</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h3 id="_3-3-原因三-概率模型的内在矛盾" tabindex="-1">3.3 原因三：概率模型的内在矛盾 <a class="header-anchor" href="#_3-3-原因三-概率模型的内在矛盾" aria-label="Permalink to “3.3 原因三：概率模型的内在矛盾”">​</a></h3><p>LLM 在每个位置选择 token 时，本质是在完成一个概率优化问题——最大化序列的整体概率。但&quot;概率最高的文本&quot;不等于&quot;事实正确的文本&quot;。</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>考虑这个问题：&quot;法国的首都是___&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>训练数据中统计：</span></span>
+<span class="line"><span>  &quot;法国的首都是巴黎&quot; → 出现 9,500 次</span></span>
+<span class="line"><span>  &quot;法国的首都是伦敦&quot; → 出现 15 次（讽刺/错误语境）</span></span>
+<span class="line"><span>  &quot;法国的首都是马赛&quot; → 出现 50 次（马赛是法国第二大城市，有人混淆）</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>概率分布：</span></span>
+<span class="line"><span>  &quot;巴黎&quot;  → 99.1%   ← 大概率正确</span></span>
+<span class="line"><span>  &quot;马赛&quot;  → 0.5%    ← 有一定概率被采样到（如果用温度 &gt; 0 的采样）</span></span>
+<span class="line"><span>  &quot;伦敦&quot;  → 0.15%   ← 极小概率，但仍有可能</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>→ 即使在这么简单的问题上，采样一万次也可能产生 50 次&quot;马赛&quot;幻觉</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>对于训练数据中更稀疏的事实，错误概率会急剧升高。</p><h3 id="_3-4-原因四-注意力机制的局限性" tabindex="-1">3.4 原因四：注意力机制的局限性 <a class="header-anchor" href="#_3-4-原因四-注意力机制的局限性" aria-label="Permalink to “3.4 原因四：注意力机制的局限性”">​</a></h3><p>LLM 的注意力虽然强大，但在长上下文中并不完美：</p><ul><li><strong>&quot;Lost in the Middle&quot;</strong>：中间位置的上下文信息容易被忽略</li><li><strong>注意力稀释</strong>：上下文越长，每个 token 获得的&quot;注意力份额&quot;越小</li><li><strong>虚假关联</strong>：模型可能将上下文中两个不相关但同时出现的概念错误关联</li></ul><h2 id="_4-缓解策略" tabindex="-1">4. 缓解策略 <a class="header-anchor" href="#_4-缓解策略" aria-label="Permalink to “4. 缓解策略”">​</a></h2>`,35)),e(l,{bold:""},{default:i(()=>[...s[0]||(s[0]=[n("幻觉无法被完全消除，但可以通过多种策略大幅降低。",-1)])]),_:1}),s[11]||(s[11]=p(`<h3 id="_4-1-策略一-rag-retrieval-augmented-generation" tabindex="-1">4.1 策略一：RAG（Retrieval-Augmented Generation） <a class="header-anchor" href="#_4-1-策略一-rag-retrieval-augmented-generation" aria-label="Permalink to “4.1 策略一：RAG（Retrieval-Augmented Generation）”">​</a></h3><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>RAG 的核心思路：</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  不让模型靠&quot;记忆&quot;回答 → 给模型提供实时检索到的参考资料</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  ┌──────────────┐</span></span>
+<span class="line"><span>  │  用户问题     │</span></span>
+<span class="line"><span>  │ &quot;公司 Q3 财报 │</span></span>
+<span class="line"><span>  │  利润多少？&quot;  │</span></span>
+<span class="line"><span>  └──────┬───────┘</span></span>
+<span class="line"><span>         │</span></span>
+<span class="line"><span>         ▼</span></span>
+<span class="line"><span>  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐</span></span>
+<span class="line"><span>  │  向量检索     │ ──→ │  找到 Q3 财报 │ ──→ │  生成引用答案 │</span></span>
+<span class="line"><span>  │  知识库       │     │  相关段落     │     │  &quot;利润为 3.2  │</span></span>
+<span class="line"><span>  └──────────────┘     └──────────────┘     │   亿元&quot;       │</span></span>
+<span class="line"><span>                                            └──────────────┘</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  RAG 不是&quot;让模型更聪明&quot;，而是&quot;让模型不需要聪明&quot;——需要的知识直接提供给它</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>RAG 是目前企业级应用中<strong>最重要且最实用</strong>的幻觉缓解手段。它把&quot;模型需要记住事实&quot;的问题转化为了&quot;模型需要理解并引用给定文本&quot;的问题——后者正是 LLM 的强项。</p><h3 id="_4-2-策略二-grounding-事实锚定" tabindex="-1">4.2 策略二：Grounding（事实锚定） <a class="header-anchor" href="#_4-2-策略二-grounding-事实锚定" aria-label="Permalink to “4.2 策略二：Grounding（事实锚定）”">​</a></h3>`,4)),a("p",null,[s[2]||(s[2]=n("Grounding ",-1)),e(l,{bold:"",type:"note"},{default:i(()=>[...s[1]||(s[1]=[n('要求模型将生成的每个事实性论断"锚定"到具体的来源',-1)])]),_:1}),s[3]||(s[3]=n("：",-1))]),s[12]||(s[12]=p(`<div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>无 Grounding:</span></span>
+<span class="line"><span>  &quot;巴黎是欧洲最大的城市。&quot; ← 谁说是最大的？依据是什么？</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>有 Grounding:</span></span>
+<span class="line"><span>  &quot;根据 2024 年联合国人口统计数据，巴黎大都会区人口约 1,300 万，</span></span>
+<span class="line"><span>   在欧洲城市中排名第 X。&quot; ← 每个数字都有来源可查</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>Grounding 在实践中通常通过以下方式实现：</p>`,2)),a("ul",null,[s[8]||(s[8]=a("li",null,[a("strong",null,"引用溯源"),n("：要求模型在输出中标注信息来源（页码、链接、数据出处）。")],-1)),a("li",null,[s[5]||(s[5]=a("strong",null,"Web Grounding",-1)),s[6]||(s[6]=n("：",-1)),e(l,{bold:"",type:"note"},{default:i(()=>[...s[4]||(s[4]=[n("实时联网搜索，将生成内容与搜索引擎结果交叉验证",-1)])]),_:1}),s[7]||(s[7]=n("。",-1))]),s[9]||(s[9]=a("li",null,[a("strong",null,"知识库 Grounding"),n("：限定模型只能引用指定知识库内的信息，禁止凭空发挥。")],-1))]),s[13]||(s[13]=p(`<h3 id="_4-3-策略三-约束解码-constrained-decoding" tabindex="-1">4.3 策略三：约束解码（Constrained Decoding） <a class="header-anchor" href="#_4-3-策略三-约束解码-constrained-decoding" aria-label="Permalink to “4.3 策略三：约束解码（Constrained Decoding）”">​</a></h3><p>在解码阶段施加硬性约束，阻止模型生成不可能的 token 序列：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>示例：让模型输出 JSON</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  无约束解码：可能输出 &quot;{&#39;name&#39;: &#39;张三&#39;, &#39;age&#39;: 30,}&quot;  ← 非法 JSON</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  约束解码：通过语法约束，强制每一步只能选择符合 JSON 语法规则的 token</span></span>
+<span class="line"><span>    第 1 步必须输出 &quot;{&quot;</span></span>
+<span class="line"><span>    第 2 步必须是 键名 的合法字符</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>    → 最终输出 100% 是合法 JSON</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  应用于事实生成：</span></span>
+<span class="line"><span>    定义一个&quot;可接受事实&quot;的白名单/约束集</span></span>
+<span class="line"><span>    模型在生成时只能在预验证的事实范围内选择</span></span>
+<span class="line"><span>    → 虽然灵活性降低，但准确性接近 100%</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>约束解码的一个具体应用是 <strong>structurally constrained generation</strong>——通过定义输出格式 Schema 来限制模型只能生成符合特定结构的内容。Llama.cpp 的 GBNF 语法约束和 OpenAI 的 Structured Outputs 都属于这一类。</p><h3 id="_4-4-策略四-事实性校验" tabindex="-1">4.4 策略四：事实性校验 <a class="header-anchor" href="#_4-4-策略四-事实性校验" aria-label="Permalink to “4.4 策略四：事实性校验”">​</a></h3><p>引入验证机制，在模型输出后、交付给用户前进行事实检查：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>多阶段校验流水线：</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  模型生成</span></span>
+<span class="line"><span>    │</span></span>
+<span class="line"><span>    ▼</span></span>
+<span class="line"><span>  ┌────────────────┐</span></span>
+<span class="line"><span>  │ 阶段 1: 规则校验 │  检查日期格式、数字范围、URL 有效性等</span></span>
+<span class="line"><span>  └───────┬────────┘</span></span>
+<span class="line"><span>          │ 通过</span></span>
+<span class="line"><span>          ▼</span></span>
+<span class="line"><span>  ┌────────────────┐</span></span>
+<span class="line"><span>  │ 阶段 2: NLI 校验 │  用 NLI（自然语言推理）模型检查：</span></span>
+<span class="line"><span>  │                 │  上下文中的信息是否&quot;蕴含&quot;了生成的答案？</span></span>
+<span class="line"><span>  │                 │  如果不蕴含 → 标记为潜在幻觉</span></span>
+<span class="line"><span>  └───────┬────────┘</span></span>
+<span class="line"><span>          │ 通过</span></span>
+<span class="line"><span>          ▼</span></span>
+<span class="line"><span>  ┌────────────────┐</span></span>
+<span class="line"><span>  │ 阶段 3: 知识库校对│  用搜索引擎/知识库 API 交叉验证关键事实</span></span>
+<span class="line"><span>  └───────┬────────┘</span></span>
+<span class="line"><span>          │ 通过</span></span>
+<span class="line"><span>          ▼</span></span>
+<span class="line"><span>  交付给用户（附置信度标记）</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><p><strong>策略组合效果对比</strong>：</p><table tabindex="0"><thead><tr><th>缓解策略</th><th>效果</th><th>成本</th><th>适用场景</th></tr></thead><tbody><tr><td>RAG</td><td>显著降低事实幻觉</td><td>中等（需维护知识库+向量检索）</td><td>企业内部知识问答</td></tr><tr><td>Grounding</td><td>让幻觉可追溯</td><td>低到中等</td><td>所有需要可信输出的场景</td></tr><tr><td>约束解码</td><td>消除格式性错误</td><td>低</td><td>结构化输出、API 调用</td></tr><tr><td>事实性校验</td><td>拦截已产生的幻觉</td><td>高（额外推理成本）</td><td>高风险决策场景</td></tr><tr><td><strong>联合使用</strong></td><td>最佳效果</td><td>高</td><td>生产级应用</td></tr></tbody></table><h2 id="_5-幻觉与创造力的边界" tabindex="-1">5. 幻觉与创造力的边界 <a class="header-anchor" href="#_5-幻觉与创造力的边界" aria-label="Permalink to “5. 幻觉与创造力的边界”">​</a></h2><p>一个发人深省的视角是：<strong>幻觉和创造力可能来自同一机制</strong>。</p><ul><li><strong>创造力的定义</strong>: 生成新颖但有用的想法。</li><li><strong>幻觉的定义</strong>: 生成新颖但不正确的信息。</li></ul><p>两者共享一个特征: 生成的内容超出了训练数据中直接出现的模式。区别在于: 接收者的期望和评价标准</p><p><strong>案例思考</strong>：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>场景 A: 创意写作</span></span>
+<span class="line"><span>  User: &quot;帮我写一个关于 AI 觉醒的科幻短篇&quot;</span></span>
+<span class="line"><span>  Model: 创造了一个不存在的城市、不存在的技术、不存在的人物</span></span>
+<span class="line"><span>  → 这算幻觉吗？不算——因为用户期待的正是&quot;创造不存在的事物&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>场景 B: 事实问答</span></span>
+<span class="line"><span>  User: &quot;AI 领域最重要的论文是哪篇？&quot;</span></span>
+<span class="line"><span>  Model: 提到了不存在的论文标题和作者</span></span>
+<span class="line"><span>  → 这是幻觉——因为用户期待的答案是&quot;真实存在的&quot;</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><div class="tip custom-block"><p class="custom-block-title">关键区分</p><p>同一个生成机制，在不同场景下有不同的评价标准。这就要求我们在设计系统时明确：</p><ol><li>当前任务需要的是<strong>事实性</strong>还是<strong>创造性</strong>。</li><li>用户对幻觉的容忍度有多高。</li><li>是否需要向用户标明&quot;这是模型生成的内容，可能不准确&quot;。</li></ol></div><p><strong>实践中的平衡之道</strong>：</p><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e;" tabindex="0" dir="ltr"><code><span class="line"><span>高风险场景（医疗、法律、金融）：</span></span>
+<span class="line"><span>  事实性 &gt; 一切</span></span>
+<span class="line"><span>  应该：RAG + Grounding + 事实性校验 + 人工审核</span></span>
+<span class="line"><span>  不应该：让模型自由发挥</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>中风险场景（客户服务、教育辅助）：</span></span>
+<span class="line"><span>  事实性 &gt; 创造性</span></span>
+<span class="line"><span>  应该：RAG + 引用标注 + 透明度声明</span></span>
+<span class="line"><span>  可以：适度调整风格和表述方式</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>低风险场景（创意写作、头脑风暴）：</span></span>
+<span class="line"><span>  创造性 &gt; 事实性</span></span>
+<span class="line"><span>  应该：鼓励发散、降低约束、把&quot;幻觉&quot;视为&quot;想象力&quot;</span></span>
+<span class="line"><span>  不需要：严格的约束和校验</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><div class="note custom-block github-alert"><p class="custom-block-title">思考</p><p></p><p>幻觉是 LLM 生成式本质的必然副产物。我们不应该幻想&quot;彻底消除幻觉&quot;，而应该学会<strong>管理幻觉</strong>——就像工程学中不追求零故障，而是追求故障的可知、可控、可恢复。</p></div>`,19))]))}});export{g as __pageData,q as default};
