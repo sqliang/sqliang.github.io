@@ -1,0 +1,62 @@
+name: Format Comment Issue
+
+# 博客评论 Issue 格式化：utterances 自动创建的 Issue 标题为页面 pathname、正文无结构，
+# 本工作流将其改写为模板化正文并追加 labels，便于查收、筛选、回复
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  format:
+    if: github.event.issue.user.login == 'utterances-bot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue = context.payload.issue;
+            const path = issue.title;
+            const pageUrl = `https://blog.insight-stack.cn${path}`;
+
+            // 确保所需 labels 存在（不存在则创建）
+            const requiredLabels = [
+              { name: "blog-comment", color: "0e8a16" },
+              { name: "待回复", color: "d93f0b" },
+            ];
+            for (const label of requiredLabels) {
+              try {
+                await github.rest.issues.getLabel({ owner, repo, name: label.name });
+              } catch {
+                await github.rest.issues.createLabel({ owner, repo, name: label.name, color: label.color });
+              }
+            }
+
+            const body = [
+              "## 💬 博客评论",
+              "",
+              "| 项目 | 内容 |",
+              "| --- | --- |",
+              `| 文章路径 | \`${path}\` |`,
+              `| 直达链接 | ${pageUrl} |`,
+              `| 创建时间 | ${issue.created_at} |`,
+              "",
+              "---",
+              "",
+              issue.body || "",
+              "",
+              "---",
+              "> 本 Issue 由 utterances 根据文章页评论自动创建；在此回复会自动展示在站点文章底部。回复后 label 会自动从「待回复」翻转为「已回复」。",
+            ].join("\n");
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: issue.number,
+              title: `💬 [评论] ${path}`,
+              body,
+              labels: ["blog-comment", "待回复"],
+            });
