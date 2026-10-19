@@ -19,8 +19,9 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const issue = context.payload.issue;
-            const path = issue.title;
-            const pageUrl = `https://blog.insight-stack.cn${path}`;
+            // utterances 的 issue 标题为不含前导斜杠的 pathname
+            const path = issue.title.replace(/^\//, "");
+            const pageUrl = `https://blog.insight-stack.cn/${path}`;
 
             // 确保所需 labels 存在（不存在则创建）
             const requiredLabels = [
