@@ -61,7 +61,7 @@ jobs:
               repo,
               issue_number: issue.number,
               // 标题末尾保留 issue-term 词元：utterances 匹配 Issue 时要求标题包含该词元
-              title: `💬 [评论] ${path || "未知文章"} #${term}`,
+              title: `💬 [评论] ${path || "未知文章"} (${term})`,
               body,
               labels: ["blog-comment", "待回复"],
             });
