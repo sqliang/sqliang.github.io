@@ -1,1 +1,0 @@
-import{q as a,a9 as e}from"../app.B8-JMuLw.js";var r=a((n,o)=>{let t;return o==="sandbox"&&(t=e("#i"+n)),(o==="sandbox"?e(t.nodes()[0].contentDocument.body):e("body")).select(`[id="${n}"]`)},"getDiagramElement");export{r as a};
