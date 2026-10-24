@@ -1,0 +1,32 @@
+name: Mark Comment Replied
+
+# 博主回复评论后，自动把 Issue 的 label 从「待回复」翻转为「已回复」，便于按待办筛选
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+jobs:
+  mark:
+    # 仅处理 utterances 创建的评论 Issue，且评论者为仓库 owner（博主）
+    if: github.event.issue.user.login == 'utterances-bot' && github.event.comment.user.login == 'sqliang'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.issue.number;
+            const labels = context.payload.issue.labels.map(l => l.name);
+            if (!labels.includes("待回复")) return;
+
+            try {
+              await github.rest.issues.getLabel({ owner, repo, name: "已回复" });
+            } catch {
+              await github.rest.issues.createLabel({ owner, repo, name: "已回复", color: "1d76db" });
+            }
+
+            await github.rest.issues.removeLabel({ owner, repo, issue_number, name: "待回复" }).catch(() => {});
+            await github.rest.issues.addLabels({ owner, repo, issue_number, labels: ["已回复"] });
