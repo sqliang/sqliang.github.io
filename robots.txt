@@ -1,0 +1,38 @@
+# 默认规则：全站可爬，屏蔽低价值路径
+User-agent: *
+Allow: /
+Disallow: /draft/
+Disallow: /api/
+Disallow: /*?*
+
+# AI 搜索引用类爬虫：放行（以曝光为目标）
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# AI 训练类爬虫：默认放行（策略可调，收紧时改为 Disallow: /）
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# 明确无用的爬虫：禁止（节省抓取资源）
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+Sitemap: https://www.insight-stack.cn/sitemap.xml
