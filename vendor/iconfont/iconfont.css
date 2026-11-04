@@ -1,0 +1,86 @@
+/**
+ * @file 阿里 iconfont 自托管副本（原地址 at.alicdn.com/t/font_2989306_w303erbip9.css）
+ * 字体文件本地化为 ./iconfont.woff2，仅保留 woff2（现代浏览器全覆盖）
+ */
+@font-face {
+  font-family: "iconfont"; /* Project id 2989306 */
+  src: url('./iconfont.woff2') format('woff2');
+  font-display: block;
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiazai:before {
+  content: "\e647";
+}
+
+.icon-cuowu:before {
+  content: "\e7fa";
+}
+
+.icon-dagouyouquan:before {
+  content: "\e630";
+}
+
+.icon-gantanhao:before {
+  content: "\e710";
+}
+
+.icon-info:before {
+  content: "\e675";
+}
+
+.icon-shop:before {
+  content: "\e609";
+}
+
+.icon-mobile:before {
+  content: "\e611";
+}
+
+.icon-graduationcap:before {
+  content: "\e724";
+}
+
+.icon-medium:before {
+  content: "\e87a";
+}
+
+.icon-qq:before {
+  content: "\e600";
+}
+
+.icon-search:before {
+  content: "\ebde";
+}
+
+.icon-weixin:before {
+  content: "\e622";
+}
+
+.icon-times:before {
+  content: "\e720";
+}
+
+.icon-bars:before {
+  content: "\e61f";
+}
+
+.icon-github:before {
+  content: "\e732";
+}
+
+.icon-twitter:before {
+  content: "\e75c";
+}
+
+.icon-gitee2:before {
+  content: "\e677";
+}
+
